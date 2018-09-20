@@ -1,0 +1,8 @@
+[package]
+name = "rule"
+version = "0.1.0"
+authors = ["Markus Klein <markus-klein@live.de>"]
+
+[dependencies]
+structopt = "0.2"
+structopt-derive = "0.2"

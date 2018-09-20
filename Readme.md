@@ -4,7 +4,7 @@ Cellular Automaton
 A command line tool which evolves the state of simple 1-dimensional cellular automatons and prints
 them to standard out.
 
-Produces pretty output like this:
+Produces pretty output like this (for the famous rule 30):
 
 ```
 ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░

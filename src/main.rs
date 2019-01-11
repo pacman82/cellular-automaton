@@ -1,11 +1,12 @@
+extern crate rand;
 extern crate structopt;
-#[macro_use]
 extern crate structopt_derive;
 
+use rand::prelude::*;
 use structopt::StructOpt;
 
 /// Prints the evolution of the state of a cellular automaton to standard out.
-/// 
+///
 /// The cellular automaton is one dimensional with each Cell being in one of two states. The next
 /// state of each cell is only influenced by its state and the state of its two neighbours. The
 /// leftmost and rightmost cells at the borders are considered to be neighbours.
@@ -23,6 +24,9 @@ struct Opt {
     /// Number of cells within the Automaton
     #[structopt(long = "width", short = "w", default_value = "80")]
     width: usize,
+    /// Random initial state
+    #[structopt(long = "random", short = "r")]
+    random: bool,
 }
 
 #[derive(Clone, Copy)]
@@ -31,10 +35,14 @@ enum Cell {
     O,
 }
 
-fn rule_from_byte (byte: u8) -> [Cell; 8]{
+fn rule_from_byte(byte: u8) -> [Cell; 8] {
     let mut rule = [Cell::O; 8];
     for i in 0..8 {
-        rule[i] = if 2_u8.pow(i as u32) & byte != 0 { Cell::X } else { Cell::O }
+        rule[i] = if 2_u8.pow(i as u32) & byte != 0 {
+            Cell::X
+        } else {
+            Cell::O
+        }
     }
     rule
 }
@@ -44,13 +52,24 @@ fn main() {
         rule,
         steps,
         width,
+        random,
     } = Opt::from_args();
 
     let rule = rule_from_byte(rule);
 
-    let mut state1 = vec![Cell::O; width];
+    let mut state1;
     let mut state2 = vec![Cell::O; width];
-    state1[width / 2] = Cell::X;
+
+    // set initial state
+    if random {
+        state1 = rand::thread_rng()
+            .sample_iter(&rand::distributions::Standard)
+            .take(width)
+            .collect();
+    } else {
+        state1 = vec![Cell::O; width];
+        state1[width / 2] = Cell::X;
+    }
     print_state(&state1);
 
     for generation in 0..steps {
@@ -69,7 +88,7 @@ fn apply_rules(previous: &[Cell], next: &mut [Cell], rule: &[Cell; 8]) {
         let neighbours = [
             previous[(index + previous.len() - 1) % previous.len()],
             previous[index],
-            previous[(index + 1) % previous.len()]
+            previous[(index + 1) % previous.len()],
         ];
         *cell = apply_rule(neighbours, &rule);
     }
@@ -97,4 +116,14 @@ fn print_state(state: &[Cell]) {
         }
     }
     print!("\n");
+}
+
+impl Distribution<Cell> for rand::distributions::Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Cell {
+        if rng.gen() {
+            Cell::X
+        } else {
+            Cell::O
+        }
+    }
 }

@@ -6,3 +6,4 @@ authors = ["Markus Klein <markus-klein@live.de>"]
 [dependencies]
 structopt = "0.2"
 structopt-derive = "0.2"
+rand = "0.6"

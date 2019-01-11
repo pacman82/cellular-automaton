@@ -2,6 +2,7 @@
 name = "rule"
 version = "0.1.0"
 authors = ["Markus Klein <markus-klein@live.de>"]
+edition = "2018"
 
 [dependencies]
 structopt = "0.2"

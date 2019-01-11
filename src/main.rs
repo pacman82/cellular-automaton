@@ -1,7 +1,3 @@
-extern crate rand;
-extern crate structopt;
-extern crate structopt_derive;
-
 use rand::prelude::*;
 use structopt::StructOpt;
 
@@ -84,7 +80,7 @@ fn main() {
 }
 
 fn apply_rules(previous: &[Cell], next: &mut [Cell], rule: &[Cell; 8]) {
-    for (index, mut cell) in next.iter_mut().enumerate() {
+    for (index, cell) in next.iter_mut().enumerate() {
         let neighbours = [
             previous[(index + previous.len() - 1) % previous.len()],
             previous[index],
@@ -95,7 +91,7 @@ fn apply_rules(previous: &[Cell], next: &mut [Cell], rule: &[Cell; 8]) {
 }
 
 fn apply_rule(neighbours: [Cell; 3], rule: &[Cell; 8]) -> Cell {
-    use Cell::*;
+    use crate::Cell::*;
     match neighbours {
         [O, O, O] => rule[0],
         [O, O, X] => rule[1],

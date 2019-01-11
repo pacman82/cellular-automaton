@@ -6,9 +6,9 @@ use structopt::StructOpt;
 /// The cellular automaton is one dimensional with each Cell being in one of two states. The next
 /// state of each cell is only influenced by its state and the state of its two neighbours. The
 /// leftmost and rightmost cells at the borders are considered to be neighbours.
-/// Each cells next state therefore depends on 3 current states. This means we require 2^3=8 rules
-/// are required to evolve the state of the automaton. Each Rule can have two outcomes, which
-/// amounts to 2^8=256 rules in total.
+/// Each cells next state therefore depends on 3 current states. This means  2^3=8 rules are
+/// required to evolve the state of the automaton. Each Rule can have two outcomes, which amounts
+/// to 2^8=256 rule sets in total.
 #[derive(StructOpt)]
 struct Opt {
     /// The ruleset used to evolve the automatons state. Any number between 0 and 255.
